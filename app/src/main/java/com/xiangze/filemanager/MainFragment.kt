@@ -36,9 +36,17 @@ class MainFragment : Fragment() {
             Environment.getExternalStorageDirectory().path
         }
 
+
+
+
         val root = File(path)
         root.listFiles()?.let {
             setupAdapter(it.toList())
+            if(it.toList().isNullOrEmpty()){
+                binding.ivEmpty.setBackgroundResource(R.drawable.ic_baseline_folder_off_24)
+            }else{
+                binding.ivEmpty.setBackgroundResource(R.drawable.bgnull)
+            }
         }
     }
 
