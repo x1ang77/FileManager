@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.xiangze.filemanager.R
 import com.xiangze.filemanager.adapters.FileAdapter
 import com.xiangze.filemanager.databinding.FragmentHomeBinding
 import java.io.File
@@ -18,6 +19,7 @@ import java.io.File
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var adapter: FileAdapter
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,10 +39,17 @@ class HomeFragment : Fragment() {
         } else {
             Environment.getExternalStorageDirectory().path
         }
+
         val root = File(path)
         root.listFiles()?.let {
             setupAdapter(it.toList())
+            if(it.toList().isNullOrEmpty()) {
+                binding.ivEmpty.setImageResource(R.drawable.ic_nofile)
+            } else {
+                binding.rvFiles.setBackgroundResource(R.color.app_bg)
+            }
         }
+
     }
     private fun setupAdapter(files: List<File>) {
         val layoutManager = LinearLayoutManager(requireContext())
