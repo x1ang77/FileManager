@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.xiangze.filemanager.R
 import com.xiangze.filemanager.databinding.FragmentHomeBinding
+import java.io.File
 
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
@@ -22,7 +23,10 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val path = Environment.getExternalStorageDirectory()
-        Log.d("path", "$path")
+        val path = Environment.getExternalStorageDirectory().path
+        val root = File(path)
+        for(file in root.listFiles()!!) {
+            Log.d("path", file.name)
+        }
     }
 }
