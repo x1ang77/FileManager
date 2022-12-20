@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -39,7 +40,14 @@ class HomeFragment : Fragment() {
 
         val root = File(path)
         root.listFiles()?.let {
-            setupAdapter(it.toList())
+            if (it.isEmpty()) {
+                binding.ivFolderEmpty.visibility = View.VISIBLE
+                binding.tvFolderEmpty.visibility = View.VISIBLE
+            } else {
+                binding.ivFolderEmpty.visibility = View.GONE
+                binding.tvFolderEmpty.visibility = View.GONE
+                setupAdapter(it.toList())
+            }
         }
     }
 
