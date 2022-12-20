@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,6 +16,7 @@ import com.xiangze.filemanager.adapters.FileAdapter
 import com.xiangze.filemanager.databinding.FragmentHomeBinding
 import java.io.File
 
+// Remember to download images from Pexels to see image files in Download folder
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var adapter: FileAdapter
@@ -37,6 +39,9 @@ class HomeFragment : Fragment() {
             Environment.getExternalStorageDirectory().path
         }
         val root = File(path)
+        if (root.listFiles().isNullOrEmpty()) {
+            binding.ivEmpty.isVisible = true
+        }
         root.listFiles()?.let {
             setupAdapter(it.toList())
         }
@@ -48,15 +53,15 @@ class HomeFragment : Fragment() {
     private fun setupAdapter(files: List<File>) {
         val layoutManager = LinearLayoutManager(requireContext())
         adapter = FileAdapter(files) {
-            val directory = HomeFragmentDirections.actionHomeFragmentSelf(it.path)
-            NavHostFragment.findNavController(this).navigate(directory)
+            if (it.isDirectory) {
+                val directory = HomeFragmentDirections.actionHomeFragmentSelf(it.path)
+                NavHostFragment.findNavController(this).navigate(directory)
+            } else {
+                val directory = HomeFragmentDirections.actionHomeFragmentToImageFragment(it.path)
+                NavHostFragment.findNavController(this).navigate(directory)
+            }
         }
         binding.rvFiles.adapter = adapter
-        if (files.isEmpty()) {
-            binding.ivEmpty.visibility = View.VISIBLE
-        } else {
-            binding.ivEmpty.visibility = View.GONE
-        }
         binding.rvFiles.layoutManager = layoutManager
     }
 }
