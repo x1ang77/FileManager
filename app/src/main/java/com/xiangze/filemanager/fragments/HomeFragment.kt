@@ -39,23 +39,39 @@ class HomeFragment : Fragment() {
         }
 
         val root = File(path)
-        root.listFiles()?.let {
-            if (it.isEmpty()) {
-                binding.ivFolderEmpty.visibility = View.VISIBLE
-                binding.tvFolderEmpty.visibility = View.VISIBLE
-            } else {
-                binding.ivFolderEmpty.visibility = View.GONE
-                binding.tvFolderEmpty.visibility = View.GONE
-                setupAdapter(it.toList())
-            }
+
+        // khayrul
+        if (root.listFiles().isNullOrEmpty()) {
+            binding.ivFolderEmpty.isVisible = true
+            binding.tvFolderEmpty.isVisible = true
         }
+        root.listFiles()?.let {
+            setupAdapter(it.toList())
+        }
+
+        // mine
+//        root.listFiles()?.let {
+//            if (it.isEmpty()) {
+//                binding.ivFolderEmpty.visibility = View.VISIBLE
+//                binding.tvFolderEmpty.visibility = View.VISIBLE
+//            } else {
+//                binding.ivFolderEmpty.visibility = View.GONE
+//                binding.tvFolderEmpty.visibility = View.GONE
+//                setupAdapter(it.toList())
+//            }
+//        }
     }
 
     private fun setupAdapter(files: List<File>) {
         val layoutManager = LinearLayoutManager(requireContext())
         adapter = FileAdapter(files) {
-            val action = HomeFragmentDirections.actionHomeToSelf(it.path)
-            NavHostFragment.findNavController(this).navigate(action)
+            if (it.isDirectory) {
+                val action = HomeFragmentDirections.actionHomeToSelf(it.path)
+                NavHostFragment.findNavController(this).navigate(action)
+            } else {
+                val action = HomeFragmentDirections.actionHomeToImage(it.path)
+                NavHostFragment.findNavController(this).navigate(action)
+            }
         }
         binding.rvFiles.layoutManager = layoutManager
         binding.rvFiles.adapter = adapter

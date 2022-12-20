@@ -19,7 +19,8 @@
         android:layout_height="50dp"
         android:layout_centerInParent="true"
         android:contentDescription="empty folder"
-        android:src="@drawable/ic_folder_empty" />
+        android:src="@drawable/ic_folder_empty"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/tv_folder_empty"
@@ -28,6 +29,7 @@
         android:layout_below="@+id/iv_folder_empty"
         android:layout_centerInParent="true"
         android:text="Folder is Empty"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        android:visibility="gone" />
 
 </RelativeLayout>
