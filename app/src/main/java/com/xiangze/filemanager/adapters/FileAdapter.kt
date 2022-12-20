@@ -7,7 +7,8 @@ import com.xiangze.filemanager.R
 import com.xiangze.filemanager.databinding.ItemLayoutFileBinding
 import java.io.File
 
-class FileAdapter(var files: List<File>) : RecyclerView.Adapter<FileAdapter.FileViewHolder>() {
+class FileAdapter(var files: List<File>, val onClick: (file: File) -> Unit) :
+    RecyclerView.Adapter<FileAdapter.FileViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FileViewHolder {
         val binding =
             ItemLayoutFileBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -23,6 +24,9 @@ class FileAdapter(var files: List<File>) : RecyclerView.Adapter<FileAdapter.File
                 ivFile.setImageResource(R.drawable.ic_file)
             }
             tvFileName.text = item.name
+            cvFile.setOnClickListener {
+                onClick(item)
+            }
         }
     }
 
