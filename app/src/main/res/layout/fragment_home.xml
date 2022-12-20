@@ -13,4 +13,14 @@
         android:paddingHorizontal="8dp"
         android:paddingVertical="8dp" />
 
+    <ImageView
+        android:id="@+id/ivEmpty"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:visibility="gone"
+        android:layout_gravity="center"
+        android:src="@drawable/ic_folder_off"
+        android:contentDescription="" />
+
+
 </FrameLayout>

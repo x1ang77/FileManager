@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -38,9 +39,15 @@ class HomeFragment : Fragment() {
             Environment.getExternalStorageDirectory().path
         }
 
+
         val root = File(path)
         root.listFiles()?.let {
             setupAdapter(it.toList())
+            if (it.isNullOrEmpty()) {
+                binding.ivEmpty.visibility = View.VISIBLE
+            }
+
+            Log.d("it", it.size.toString())
         }
     }
 
