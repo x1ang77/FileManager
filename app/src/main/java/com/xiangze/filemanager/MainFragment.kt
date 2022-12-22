@@ -18,44 +18,49 @@ import java.io.File
 
 
 class MainFragment : Fragment() {
-    private lateinit var binding:FragmentMainBinding
-    private lateinit var adapter:FileAdapter
+    private lateinit var binding: FragmentMainBinding
+    private lateinit var adapter: FileAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding=FragmentMainBinding.inflate(layoutInflater)
+        binding = FragmentMainBinding.inflate(layoutInflater)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val args: MainFragmentArgs by navArgs()
-        val path = if(args.path != null && args.path!="null"){
+        val path = if (args.path != null && args.path != "null") {
             args.path!!
-        }else{
+        } else {
             Environment.getExternalStorageDirectory().path
         }
-        val root= File(path)
-        root.listFiles()?.let {
-            if(it.toList().isNullOrEmpty()){
-                binding.ivEmpty.visibility=VISIBLE
-            }else{
-                setupAdapter(it.toList())
-                binding.ivEmpty.visibility=GONE
-            }
-
-
+        val root = File(path)
+        if (root.listFiles().isNullOrEmpty()) {
+            binding.ivEmpty.visibility = VISIBLE
+        }else{
+            binding.ivEmpty.visibility = GONE
         }
-        Log.d("debugging",path.toString())
-        Log.d("debugging",root.listFiles()?.size.toString())
+        root.listFiles()?.let {
+            setupAdapter(it.toList())
+        }
+        Log.d("debugging", path.toString())
+        Log.d("debugging", root.listFiles()?.size.toString())
     }
-    private fun setupAdapter(files:List<File>){
+
+    private fun setupAdapter(files: List<File>) {
         val layoutManager = LinearLayoutManager(requireContext())
-        adapter = FileAdapter(files){
-            val action = MainFragmentDirections.actionMainToSelf(it.path)
-            NavHostFragment.findNavController(this).navigate(action)
+        adapter = FileAdapter(files) {
+            if(it.isDirectory){
+                val action = MainFragmentDirections.actionMainToSelf(it.path)
+                NavHostFragment.findNavController(this).navigate(action)
+            }else{
+                val action=MainFragmentDirections.actionMainToImageView(it.path)
+                NavHostFragment.findNavController(this).navigate(action)
+
+            }
         }
         binding.rvFiles.layoutManager = layoutManager
         binding.rvFiles.adapter = adapter

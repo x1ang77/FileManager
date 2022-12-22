@@ -16,5 +16,17 @@
             app:argType="string"
             app:nullable="true"
             android:defaultValue="null"/>
+        <action
+            android:id="@+id/action_main_to_image_view"
+            app:destination="@id/secondFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/secondFragment"
+        android:name="com.xiangze.filemanager.SecondFragment"
+        android:label="fragment_second"
+        tools:layout="@layout/fragment_second">
+            <argument
+                android:name="path"
+                app:argType="string"/>
     </fragment>
 </navigation>
