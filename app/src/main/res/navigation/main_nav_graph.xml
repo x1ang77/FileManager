@@ -3,23 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_nav_graph"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/filesFragment">
 
     <fragment
-        android:id="@+id/homeFragment"
-        android:name="com.xiangze.filemanager.fragments.HomeFragment"
-        android:label="fragment_home"
-        tools:layout="@layout/fragment_home">
+        android:id="@+id/filesFragment"
+        android:name="com.xiangze.filemanager.fragments.FilesFragment"
+        android:label="fragment_files"
+        tools:layout="@layout/fragment_files">
         <action
-            android:id="@+id/action_homeFragment_self"
-            app:destination="@id/homeFragment" />
+            android:id="@+id/action_filesFragment_self"
+            app:destination="@id/filesFragment" />
         <argument
             android:name="path"
             android:defaultValue="null"
             app:argType="string"
             app:nullable="true" />
         <action
-            android:id="@+id/action_homeFragment_to_imageFragment"
+            android:id="@+id/action_filesFragment_to_imageFragment"
             app:destination="@id/imageFragment" />
     </fragment>
     <fragment
@@ -30,5 +30,19 @@
         <argument
             android:name="path"
             app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/galleryFragment"
+        android:name="com.xiangze.filemanager.fragments.GalleryFragment"
+        android:label="fragment_gallery"
+        tools:layout="@layout/fragment_gallery" />
+    <fragment
+        android:id="@+id/imageViewerFragment"
+        android:name="com.xiangze.filemanager.fragments.ImageViewerFragment"
+        android:label="fragment_image_viewer"
+        tools:layout="@layout/fragment_image_viewer">
+        <argument
+            android:name="position"
+            app:argType="integer" />
     </fragment>
 </navigation>
