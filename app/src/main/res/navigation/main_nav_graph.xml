@@ -10,21 +10,18 @@
         android:id="@+id/mainFragment"
         android:name="com.xiangze.filemanager.ui.MainFragment"
         android:label="fragment_main"
-        tools:layout="@layout/fragment_main" />
+        tools:layout="@layout/fragment_main" >
+        <action
+            android:id="@+id/action_main_to_imageViewer"
+            app:destination="@id/imageViewerFragment" />
+    </fragment>
 
     <fragment
-        android:id="@+id/filesFragment"
-        android:name="com.xiangze.filemanager.ui.FilesFragment"
-        android:label="fragment_first"
-        tools:layout="@layout/fragment_files" >
-        <action
-            android:id="@+id/action_files_to_self"
-            app:destination="@id/filesFragment" />
-        <argument
-            android:name="path"
-            app:argType="string"
-            app:nullable="true"
-            android:defaultValue="null"/>
-
+        android:id="@+id/imageViewerFragment"
+        android:name="com.xiangze.filemanager.ui.ImageViewerFragment"
+        android:label="ImageViewerFragment">
+        <argument android:name="pos"
+            app:argType="integer" />
     </fragment>
+
 </navigation>

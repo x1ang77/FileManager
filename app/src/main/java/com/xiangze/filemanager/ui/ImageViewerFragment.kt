@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.RecyclerView
+import com.xiangze.filemanager.MainActivity
 import com.xiangze.filemanager.adapters.ImageSliderAdapter
 import com.xiangze.filemanager.databinding.FragmentImageViewerBinding
 
@@ -28,14 +29,13 @@ class ImageViewerFragment : Fragment() {
         val args: ImageViewerFragmentArgs by navArgs()
 
         val images = (requireActivity() as MainActivity).images
-        val image = images[args.pos]
 
         adapter = ImageSliderAdapter(images)
 
         binding.vpImages.let { viewPager ->
             viewPager.adapter = adapter
-            viewPager.getChildAt(args.pos)?.overScrollMode = RecyclerView.OVER_SCROLL_NEVER
+            viewPager.getChildAt(0)?.overScrollMode = RecyclerView.OVER_SCROLL_NEVER
+            viewPager.setCurrentItem(args.pos, false)
         }
     }
-
 }

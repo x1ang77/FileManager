@@ -4,6 +4,8 @@ import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.xiangze.filemanager.R
 import com.xiangze.filemanager.databinding.ItemLayoutImageBinding
 import java.io.File
 
@@ -33,7 +35,10 @@ class ImageAdapter(
             fun bind() {
                 val image = images[adapterPosition]
                 binding.run {
-                    ivImage.setImageURI(Uri.fromFile(image))
+                    Glide.with(binding.root)
+                        .load(image)
+                        .placeholder(R.drawable.ic_image)
+                        .into(ivImage)
 
                     cvImage.setOnClickListener {
                         onClick(adapterPosition)

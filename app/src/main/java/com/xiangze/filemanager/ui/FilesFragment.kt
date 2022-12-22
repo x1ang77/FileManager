@@ -2,10 +2,12 @@ package com.xiangze.filemanager.ui
 
 import android.os.Bundle
 import android.os.Environment
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.navArgs
@@ -14,7 +16,7 @@ import com.xiangze.filemanager.adapters.FileAdapter
 import com.xiangze.filemanager.databinding.FragmentFilesBinding
 import java.io.File
 
-class FilesFragment : Fragment() {
+class FilesFragment private constructor() : Fragment() {
     private lateinit var binding: FragmentFilesBinding
     private lateinit var adapter: FileAdapter
 
@@ -28,12 +30,13 @@ class FilesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val args: FilesFragmentArgs by navArgs()
-        val path = if(args.path != null && args.path != "null"){
-            args.path!!
-        }else{
-            Environment.getExternalStorageDirectory().path
-        }
+//        val args: FilesFragmentArgs by navArgs()
+//        val path = if(args.path != null && args.path != "null"){
+//            args.path!!
+//        }else{
+//           Environment.getExternalStorageDirectory().path
+       // }
+        val path = Environment.getExternalStorageDirectory().path
         val root = File(path)
         if(root.listFiles()?.toList().isNullOrEmpty()){
             binding.emptyFile.isVisible = true
@@ -46,10 +49,23 @@ class FilesFragment : Fragment() {
     private fun setupAdapter(files: List<File>){
         val layoutManager = LinearLayoutManager(requireContext())
         adapter = FileAdapter(files){
-            val action = FilesFragmentDirections.actionFilesToSelf(it.path)
-            NavHostFragment.findNavController(this).navigate(action)
+//            val action = FilesFragmentDirections.actionFilesToSelf(it.path)
+//            NavHostFragment.findNavController(this).navigate(action)
         }
         binding.rvFiles.layoutManager = layoutManager
         binding.rvFiles.adapter = adapter
+    }
+
+
+    companion object {
+        private var filesFragmentInstance: FilesFragment? = null
+
+        fun getInstance(): FilesFragment {
+            if(filesFragmentInstance == null) {
+                filesFragmentInstance = FilesFragment()
+            }
+
+            return filesFragmentInstance!!
+        }
     }
 }
