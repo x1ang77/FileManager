@@ -1,5 +1,6 @@
 package com.xiangze.filemanager.adapters
 
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -24,7 +25,12 @@ class FileAdapter(
         holder.binding.run{
             if(item.isDirectory){
                 ivFile.setImageResource(R.drawable.ic_folder)
-            }else{
+            }else if(Regex(".jpg|.png|.jpeg").containsMatchIn(item.name)){
+                val uri = Uri.fromFile(item)
+                ivFile.setImageURI(uri)
+            }
+
+            else{
                 ivFile.setImageResource(R.drawable.ic_file)
             }
 
