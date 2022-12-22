@@ -1,4 +1,4 @@
-package com.xiangze.filemanager.fragments
+package com.xiangze.filemanager.ui
 
 import android.net.Uri
 import android.os.Bundle
@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.navArgs
-import com.xiangze.filemanager.R
 import com.xiangze.filemanager.databinding.FragmentImageBinding
 import java.io.File
 
