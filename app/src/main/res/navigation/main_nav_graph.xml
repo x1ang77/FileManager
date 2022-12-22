@@ -3,21 +3,35 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_nav_graph"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/filesFragment">
 
     <fragment
-        android:id="@+id/homeFragment"
-        android:name="com.xiangze.filemanager.ui.HomeFragment"
+        android:id="@+id/filesFragment"
+        android:name="com.xiangze.filemanager.ui.FilesFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" >
+        tools:layout="@layout/fragment_files" >
         <action
-            android:id="@+id/action_homeFragment_self"
-            app:destination="@id/homeFragment" />
+            android:id="@+id/action_filesFragment_self"
+            app:destination="@id/filesFragment" />
         <argument
             android:name="path"
             app:argType="string"
             app:nullable="true"
             android:defaultValue="null"
             />
+        <action
+            android:id="@+id/action_filesFragment_to_secondFragment"
+            app:destination="@id/secondFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/secondFragment"
+        android:name="com.xiangze.filemanager.ui.SecondFragment"
+        android:label="fragment_second"
+        tools:layout="@layout/fragment_second"
+        >
+        <argument
+            android:name="path"
+            app:argType="string"/>
+    </fragment>
+
 </navigation>

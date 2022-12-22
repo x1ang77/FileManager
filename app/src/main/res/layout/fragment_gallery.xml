@@ -3,26 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/app_bg"
-    tools:context=".ui.HomeFragment">
+    tools:context=".ui.GalleryFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvFiles"
+        android:id="@+id/rvImage"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingHorizontal="8dp"
         android:paddingVertical="8dp" >
-
     </androidx.recyclerview.widget.RecyclerView>
-
-    <ImageView
-        android:id="@+id/ivEmpty"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:contentDescription=""
-        android:layout_gravity="center"
-        >
-
-    </ImageView>
 
 </FrameLayout>
