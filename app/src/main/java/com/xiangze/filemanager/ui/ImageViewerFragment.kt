@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.RecyclerView
+import com.xiangze.filemanager.MainActivity
 import com.xiangze.filemanager.adapters.ImageSliderAdapter
 import com.xiangze.filemanager.databinding.FragmentImageViewerBinding
 
