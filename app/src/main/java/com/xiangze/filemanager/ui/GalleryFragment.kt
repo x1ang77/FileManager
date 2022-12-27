@@ -12,8 +12,9 @@ import com.xiangze.filemanager.MainActivity
 import com.xiangze.filemanager.databinding.FragmentGalleryBinding
 import com.xiangze.filemanager.adapters.ImageAdapter
 import java.io.File
+import java.lang.reflect.Constructor
 
-class GalleryFragment : Fragment() {
+class GalleryFragment private constructor() : Fragment() {
     private lateinit var binding: FragmentGalleryBinding
     private val images: MutableList<File> = mutableListOf()
     private lateinit var adapter: ImageAdapter
@@ -60,12 +61,22 @@ class GalleryFragment : Fragment() {
         val layoutManager = GridLayoutManager(requireContext(), 3)
 
         adapter = ImageAdapter(images) {
-            val action = FirstFragmentDirections.actionFirstFragmentToImageViewerFragment(it)
+            val action = MainFragmentDirections.actionMainFragmentToImageViewerFragment(it)
             NavHostFragment.findNavController(this).navigate(action)
         }
 
         binding.rvImages.layoutManager = layoutManager
         binding.rvImages.adapter = adapter
 
+    }
+    companion object {
+         private var galleryFragmentInstance: GalleryFragment? = null
+
+        fun getInstance(): GalleryFragment {
+            if(galleryFragmentInstance == null) {
+                galleryFragmentInstance = GalleryFragment()
+            }
+            return galleryFragmentInstance!!
+        }
     }
 }
