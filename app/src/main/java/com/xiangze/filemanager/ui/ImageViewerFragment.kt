@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.RecyclerView
+import com.xiangze.filemanager.MainActivity
 import com.xiangze.filemanager.adapters.ImageSliderAdapter
 import com.xiangze.filemanager.databinding.FragmentImageViewerBinding
 
@@ -34,7 +35,10 @@ class ImageViewerFragment : Fragment() {
 
         binding.vpImages.let { viewPager ->
             viewPager.adapter = adapter
+            viewPager.offscreenPageLimit = 3
+            viewPager.setCurrentItem(args.pos, false)
             viewPager.getChildAt(args.pos)?.overScrollMode = RecyclerView.OVER_SCROLL_NEVER
+
         }
     }
 
