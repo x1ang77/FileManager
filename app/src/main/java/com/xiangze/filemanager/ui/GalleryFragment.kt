@@ -20,7 +20,7 @@ class GalleryFragment private constructor(): Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        images.clear()
         val path = Environment.getExternalStorageDirectory().path
         getImages(path)
     }
@@ -63,9 +63,21 @@ class GalleryFragment private constructor(): Fragment() {
             val action = MainFragmentDirections.actionMainFragmentToImageViewerFragment(it)
             NavHostFragment.findNavController(this).navigate(action)
         }
-
         binding.rvImages.layoutManager = layoutManager
         binding.rvImages.adapter = adapter
+    }
+
+    companion object{
+
+        private var galleryFragmentInstance: GalleryFragment? = null
+
+        fun getInstance(): GalleryFragment{
+            if(galleryFragmentInstance == null){
+                galleryFragmentInstance = GalleryFragment()
+            }
+
+            return galleryFragmentInstance!!
+        }
 
     }
 

@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     app:startDestination="@id/mainFragment"
     android:id="@+id/main_nav_graph">
+
+
     <fragment
         android:id="@+id/mainFragment"
         android:name="com.xiangze.filemanager.ui.MainFragment"
@@ -16,9 +18,11 @@
     <fragment
         android:id="@+id/imageViewerFragment"
         android:name="com.xiangze.filemanager.ui.ImageViewerFragment"
-        android:label="ImageViewerFragment" >
-        <argument android:name="pos"
-            app:argType="integer"/>
+        android:label="ImageViewerFragment"
+        tools:layout="@layout/fragment_image_viewer">
+        <argument
+            android:name="pos"
+            app:argType="integer" />
     </fragment>
 
     <!--    <fragment-->
