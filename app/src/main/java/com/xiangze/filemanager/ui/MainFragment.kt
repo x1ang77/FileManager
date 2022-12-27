@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.setFragmentResultListener
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayoutMediator
 import com.xiangze.filemanager.adapters.ViewPagerAdapter
 import com.xiangze.filemanager.databinding.FragmentMainBinding
@@ -37,5 +39,10 @@ class MainFragment : Fragment() {
                 else -> "Gallery"
             }
         }.attach()
+
+        setFragmentResultListener("result_from_image_viewer"){ _, result ->
+            val refresh = result.getBoolean("refresh")
+            Snackbar.make(view,"Refresh: $refresh", Snackbar.LENGTH_LONG).show()
+        }
     }
 }

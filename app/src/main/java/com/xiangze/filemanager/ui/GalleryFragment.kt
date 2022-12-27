@@ -6,8 +6,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.setFragmentResultListener
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.GridLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import com.xiangze.filemanager.MainActivity
 import com.xiangze.filemanager.databinding.FragmentGalleryBinding
 import com.xiangze.filemanager.adapters.ImageAdapter
@@ -38,6 +40,8 @@ class GalleryFragment private constructor(): Fragment() {
 
         (requireActivity() as MainActivity).images = images
         setupAdapter(images)
+
+
     }
 
     private fun getImages(path: String) {
