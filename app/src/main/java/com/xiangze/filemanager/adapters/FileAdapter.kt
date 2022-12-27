@@ -1,6 +1,7 @@
 package com.xiangze.filemanager.adapters
 
 import android.net.Uri
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -22,6 +23,7 @@ class FileAdapter(
 
     override fun onBindViewHolder(holder: FileViewHolder, position: Int) {
        val item = files[position]
+        Log.d("bruh",item.toString())
         holder.binding.run{
             if(item.isDirectory){
                 ivFile.setImageResource(R.drawable.ic_folder)

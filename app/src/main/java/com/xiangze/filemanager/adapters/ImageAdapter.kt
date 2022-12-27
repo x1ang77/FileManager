@@ -1,9 +1,12 @@
 package com.xiangze.filemanager.adapters
 
 import android.net.Uri
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.xiangze.filemanager.R
 import com.xiangze.filemanager.databinding.ItemLayoutImageBinding
 import java.io.File
 
@@ -31,9 +34,10 @@ class ImageAdapter(
     inner class ImageViewHolder(val binding: ItemLayoutImageBinding) :
         RecyclerView.ViewHolder(binding.root) {
             fun bind() {
+                Log.d("bruh",adapterPosition.toString())
                 val image = images[adapterPosition]
                 binding.run {
-                    ivImage.setImageURI(Uri.fromFile(image))
+                    Glide.with(binding.root).load(image).placeholder(R.drawable.ic_image).into(ivImage)
 
                     cvImage.setOnClickListener {
                         onClick(adapterPosition)
