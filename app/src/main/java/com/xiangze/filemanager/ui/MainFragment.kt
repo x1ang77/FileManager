@@ -5,9 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.xiangze.filemanager.R
+import com.google.android.material.tabs.TabLayoutMediator
+import com.xiangze.filemanager.adapters.ViewPagerAdapter
 import com.xiangze.filemanager.databinding.FragmentMainBinding
-
 
 class MainFragment : Fragment() {
     private lateinit var binding: FragmentMainBinding
@@ -17,7 +17,23 @@ class MainFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentMainBinding.inflate(layoutInflater)
-        // Inflate the layout for this fragment
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val adapter = ViewPagerAdapter(
+            listOf(FilesFragment.getInstance(), GalleryFragment.getInstance()),
+            requireActivity().supportFragmentManager,
+            lifecycle
+        )
+        binding.vpFileManager.adapter = adapter
+        TabLayoutMediator(binding.tlFileManager, binding.vpFileManager) {tab, position ->
+            tab.text = when(position) {
+                0 -> "Files"
+                else -> "Gallery"
+            }
+        }.attach()
     }
 }

@@ -13,14 +13,14 @@ import com.xiangze.filemanager.databinding.FragmentGalleryBinding
 import com.xiangze.filemanager.adapters.ImageAdapter
 import java.io.File
 
-class GalleryFragment : Fragment() {
+class GalleryFragment private constructor() : Fragment() {
     private lateinit var binding: FragmentGalleryBinding
     private val images: MutableList<File> = mutableListOf()
     private lateinit var adapter: ImageAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        images.clear()
         val path = Environment.getExternalStorageDirectory().path
         getImages(path)
     }
@@ -48,7 +48,6 @@ class GalleryFragment : Fragment() {
                 images.add(file)
             }
         }
-
         for (file in files) {
             if (file.isDirectory) {
                 getImages(file.path)
@@ -58,14 +57,21 @@ class GalleryFragment : Fragment() {
 
     private fun setupAdapter(images: List<File>) {
         val layoutManager = GridLayoutManager(requireContext(), 3)
-
         adapter = ImageAdapter(images) {
-            val action = FirstFragmentDirections.actionFirstFragmentToImageViewerFragment(it)
+            val action = MainFragmentDirections.actionMainToImageViewer(it)
             NavHostFragment.findNavController(this).navigate(action)
         }
-
         binding.rvImages.layoutManager = layoutManager
         binding.rvImages.adapter = adapter
+    }
 
+    companion object {
+        private var galleryFragmentInstance: GalleryFragment? = null
+        fun getInstance(): GalleryFragment {
+            if (galleryFragmentInstance == null) {
+                galleryFragmentInstance = GalleryFragment()
+            }
+            return galleryFragmentInstance!!
+        }
     }
 }
