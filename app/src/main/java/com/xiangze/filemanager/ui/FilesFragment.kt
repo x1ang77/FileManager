@@ -35,6 +35,7 @@ class FilesFragment private constructor() : Fragment() {
 //            Environment.getExternalStorageDirectory().path
 //        }
         val path = Environment.getExternalStorageDirectory().path
+
         val root = File(path)
         if(root.listFiles()?.toList().isNullOrEmpty()){
             binding.emptyFile.isVisible = true
@@ -53,14 +54,18 @@ class FilesFragment private constructor() : Fragment() {
         binding.rvFiles.layoutManager = layoutManager
         binding.rvFiles.adapter = adapter
     }
-    companion object {
+
+
+    companion object{
         private var filesFragmentInstance: FilesFragment? = null
 
-        fun getInstance(): FilesFragment {
-            if(filesFragmentInstance == null) {
+        fun getInstance(): FilesFragment{
+            if(filesFragmentInstance == null){
                 filesFragmentInstance = FilesFragment()
             }
+
             return filesFragmentInstance!!
         }
     }
+
 }

@@ -6,22 +6,23 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.setFragmentResultListener
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.GridLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import com.xiangze.filemanager.MainActivity
 import com.xiangze.filemanager.databinding.FragmentGalleryBinding
 import com.xiangze.filemanager.adapters.ImageAdapter
 import java.io.File
-import java.lang.reflect.Constructor
 
-class GalleryFragment private constructor() : Fragment() {
+class GalleryFragment private constructor(): Fragment() {
     private lateinit var binding: FragmentGalleryBinding
     private val images: MutableList<File> = mutableListOf()
     private lateinit var adapter: ImageAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        images.clear()
         val path = Environment.getExternalStorageDirectory().path
         getImages(path)
     }
@@ -39,6 +40,8 @@ class GalleryFragment private constructor() : Fragment() {
 
         (requireActivity() as MainActivity).images = images
         setupAdapter(images)
+
+
     }
 
     private fun getImages(path: String) {
@@ -64,19 +67,21 @@ class GalleryFragment private constructor() : Fragment() {
             val action = MainFragmentDirections.actionMainFragmentToImageViewerFragment(it)
             NavHostFragment.findNavController(this).navigate(action)
         }
-
         binding.rvImages.layoutManager = layoutManager
         binding.rvImages.adapter = adapter
-
     }
-    companion object {
-         private var galleryFragmentInstance: GalleryFragment? = null
 
-        fun getInstance(): GalleryFragment {
-            if(galleryFragmentInstance == null) {
+    companion object{
+
+        private var galleryFragmentInstance: GalleryFragment? = null
+
+        fun getInstance(): GalleryFragment{
+            if(galleryFragmentInstance == null){
                 galleryFragmentInstance = GalleryFragment()
             }
+
             return galleryFragmentInstance!!
         }
+
     }
 }

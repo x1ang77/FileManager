@@ -16,8 +16,9 @@ class ImageAdapter(
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
-        val binding =
-            ItemLayoutImageBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = ItemLayoutImageBinding.inflate(
+            LayoutInflater.from(parent.context), parent,
+            false)
 
         return ImageViewHolder(binding)
     }
@@ -30,20 +31,22 @@ class ImageAdapter(
         return images.size
     }
 
-    inner class ImageViewHolder(val binding: ItemLayoutImageBinding ):
+    inner class ImageViewHolder(val binding: ItemLayoutImageBinding) :
         RecyclerView.ViewHolder(binding.root) {
             fun bind() {
                 val image = images[adapterPosition]
                 binding.run {
+                    if(image.isFile) {
                         Glide.with(ivImage)
                             .load(image)
-                            .placeholder(R.drawable.ic_baseline_photo_24)
+                            .placeholder(R.drawable.ic_image)
                             .into(ivImage)
-
                         cvImage.setOnClickListener {
                             onClick(adapterPosition)
                         }
+                    }
                 }
+
             }
         }
 }

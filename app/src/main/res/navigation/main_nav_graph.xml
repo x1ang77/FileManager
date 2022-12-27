@@ -20,8 +20,9 @@
         android:name="com.xiangze.filemanager.ui.ImageViewerFragment"
         android:label="ImageViewerFragment"
         tools:layout="@layout/fragment_image_viewer">
-    <argument android:name="pos"
-        app:argType="integer" />
+        <argument
+            android:name="pos"
+            app:argType="integer" />
     </fragment>
 
     <!--    <fragment-->
