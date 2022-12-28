@@ -1,11 +1,14 @@
 package com.xiangze.filemanager.ui
 
+import android.content.Context
 import android.os.Bundle
 import android.os.Environment
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
+import androidx.activity.OnBackPressedDispatcher
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.navArgs
@@ -17,6 +20,21 @@ import java.io.File
 class FilesFragment private constructor() : Fragment() {
     private lateinit var binding: FragmentFilesBinding
     private lateinit var adapter: FileAdapter
+
+    val stack =ArrayDeque<String>()
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        requireActivity().onBackPressedDispatcher.addCallback(object :OnBackPressedCallback(true){
+            override fun handleOnBackPressed() {
+                stack.removeFirst()
+                val root = File(stack.first())
+                root.listFiles()?.let{
+                    adapter.setItem(it.toList())
+                }
+            }
+        })
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

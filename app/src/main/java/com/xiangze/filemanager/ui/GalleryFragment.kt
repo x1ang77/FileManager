@@ -6,8 +6,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.setFragmentResultListener
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.GridLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import com.xiangze.filemanager.MainActivity
 import com.xiangze.filemanager.databinding.FragmentGalleryBinding
 import com.xiangze.filemanager.adapters.ImageAdapter
@@ -38,6 +40,16 @@ class GalleryFragment private constructor(): Fragment() {
 
         (requireActivity() as MainActivity).images = images
         setupAdapter(images)
+
+        setFragmentResultListener("result_from_image_viewer"){ _, result ->
+            val refresh = result.getBoolean("refresh")
+            Snackbar.make(view,"Refresh: $refresh",Snackbar.LENGTH_LONG).show()
+
+        }
+    }
+
+    fun refresh(){
+        Snackbar.make(binding.root,"Refreshing",Snackbar.LENGTH_LONG).show()
     }
 
     private fun getImages(path: String) {
@@ -79,15 +91,5 @@ class GalleryFragment private constructor(): Fragment() {
             return galleryFragmentInstance!!
         }
 
-    }
-
-    companion object{
-        private var galleryFragmentInstance:GalleryFragment? = null
-        fun getInstance():GalleryFragment{
-            if(galleryFragmentInstance ==null){
-                galleryFragmentInstance = GalleryFragment()
-            }
-            return galleryFragmentInstance!!
-        }
     }
 }
