@@ -1,5 +1,6 @@
 package com.xiangze.filemanager.ui
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -23,19 +24,6 @@ class MainFragment : Fragment() {
     private val viewModel: MainViewModel by viewModels()
     private val filesFragment = FilesFragment.getInstance()
     private val galleryFragment = GalleryFragment.getInstance()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        Log.d("debugging", "Hello back")
-
-        requireActivity().onBackPressedDispatcher.addCallback(object: OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                Log.d("debugging", "Hello back")
-            }
-
-        })
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
