@@ -9,28 +9,29 @@ import java.io.File
 
 class FileAdapter(
     var files: List<File>,
-    val onClick:(file:File)->Unit):
+    val onClick: (file: File) -> Unit
+) :
     RecyclerView.Adapter<FileAdapter.FileViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FileViewHolder {
-       val binding = ItemLayoutFileBinding.inflate(
-           LayoutInflater.from(parent.context),parent,false
-       )
+        val binding = ItemLayoutFileBinding.inflate(
+            LayoutInflater.from(parent.context), parent, false
+        )
         return FileViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: FileViewHolder, position: Int) {
-       val item = files[position]
-        holder.binding.run{
-            if(item.isDirectory){
+        val item = files[position]
+        holder.binding.run {
+            if (item.isDirectory) {
                 ivFile.setImageResource(R.drawable.ic_folder)
-            }else{
+            } else {
                 ivFile.setImageResource(R.drawable.ic_file)
             }
 
             tvFileName.text = item.name
 
-            cvFile.setOnClickListener{
+            cvFile.setOnClickListener {
                 onClick(item)
             }
         }
@@ -38,6 +39,11 @@ class FileAdapter(
 
     override fun getItemCount() = files.size
 
-    class FileViewHolder(val binding: ItemLayoutFileBinding): RecyclerView.ViewHolder(binding.root)
+    fun setItems(items: List<File>) {
+        this.files = items
+        notifyDataSetChanged()
+    }
+
+    class FileViewHolder(val binding: ItemLayoutFileBinding) : RecyclerView.ViewHolder(binding.root)
 
 }

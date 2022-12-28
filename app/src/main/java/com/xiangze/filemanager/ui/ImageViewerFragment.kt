@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.setFragmentResult
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.RecyclerView
 import com.xiangze.filemanager.MainActivity
@@ -38,6 +40,13 @@ class ImageViewerFragment : Fragment() {
             viewPager.offscreenPageLimit = 3
             viewPager.getChildAt(0)?.overScrollMode = RecyclerView.OVER_SCROLL_NEVER
             viewPager.setCurrentItem(args.position, false)
+        }
+
+        binding.btnBack.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putBoolean("refresh", true)
+            setFragmentResult("from_image_viewer", bundle)
+            NavHostFragment.findNavController(this).popBackStack()
         }
     }
 }

@@ -6,15 +6,20 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.xiangze.filemanager.adapters.FileAdapter
 import com.xiangze.filemanager.databinding.FragmentFilesBinding
 import java.io.File
 
-class FilesFragment private constructor(): Fragment() {
+class FilesFragment private constructor() : Fragment() {
     private lateinit var binding: FragmentFilesBinding
     private lateinit var adapter: FileAdapter
+
+    private val stack = ArrayDeque<String>()
+    // Stack, Queue, Deque
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,7 +37,10 @@ class FilesFragment private constructor(): Fragment() {
 //        }else{
 //            Environment.getExternalStorageDirectory().path
 //        }
-        val root = File(Environment.getExternalStorageDirectory().path)
+
+        val path = Environment.getExternalStorageDirectory().path
+        stack.addFirst(path)
+        val root = File(path)
         if (root.listFiles()?.toList().isNullOrEmpty()) {
             binding.emptyFile.isVisible = true
         }
@@ -43,7 +51,11 @@ class FilesFragment private constructor(): Fragment() {
 
     private fun setupAdapter(files: List<File>) {
         val layoutManager = LinearLayoutManager(requireContext())
-        adapter = FileAdapter(files){
+        adapter = FileAdapter(files) {
+            stack.addFirst(it.path)
+            it.listFiles()?.let { files ->
+                adapter.setItems(files.toList())
+            }
 //            val action = FilesFragmentDirections.actionFilesToSelf(it.path)
 //            NavHostFragment.findNavController(this).navigate(action)
         }
@@ -53,8 +65,8 @@ class FilesFragment private constructor(): Fragment() {
 
     companion object {
         private var filesFragmentInstance: FilesFragment? = null
-        fun getInstance() : FilesFragment {
-            if(filesFragmentInstance == null) {
+        fun getInstance(): FilesFragment {
+            if (filesFragmentInstance == null) {
                 filesFragmentInstance = FilesFragment()
             }
             return filesFragmentInstance!!
