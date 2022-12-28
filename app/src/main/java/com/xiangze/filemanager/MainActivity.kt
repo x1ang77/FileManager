@@ -4,6 +4,9 @@ import android.Manifest
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import java.io.File
 
 class MainActivity : AppCompatActivity() {
@@ -15,6 +18,7 @@ class MainActivity : AppCompatActivity() {
 
         getPermission()
     }
+
     private fun getPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             requestPermissions(

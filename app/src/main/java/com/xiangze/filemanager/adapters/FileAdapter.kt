@@ -9,8 +9,8 @@ import java.io.File
 
 class FileAdapter(
     var files: List<File>,
-    val onClick:(file:File)->Unit):
-    RecyclerView.Adapter<FileAdapter.FileViewHolder>() {
+    val onClick:(file:File)->Unit
+): RecyclerView.Adapter<FileAdapter.FileViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FileViewHolder {
        val binding = ItemLayoutFileBinding.inflate(
@@ -37,6 +37,11 @@ class FileAdapter(
     }
 
     override fun getItemCount() = files.size
+
+    fun setItems(items: List<File>) {
+        this.files = items
+        notifyDataSetChanged()
+    }
 
     class FileViewHolder(val binding: ItemLayoutFileBinding): RecyclerView.ViewHolder(binding.root)
 

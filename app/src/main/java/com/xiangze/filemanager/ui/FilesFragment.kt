@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.NavHostFragment
@@ -19,6 +20,10 @@ import java.io.File
 class FilesFragment private constructor() : Fragment() {
     private lateinit var binding: FragmentFilesBinding
     private lateinit var adapter: FileAdapter
+
+    val stack = ArrayDeque<String>()
+
+    // Stack, Queue, Deque
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,7 +41,10 @@ class FilesFragment private constructor() : Fragment() {
 //        }else{
 //           Environment.getExternalStorageDirectory().path
        // }
+
         val path = Environment.getExternalStorageDirectory().path
+        stack.addFirst(path)
+
         val root = File(path)
         if(root.listFiles()?.toList().isNullOrEmpty()){
             binding.emptyFile.isVisible = true
@@ -49,8 +57,10 @@ class FilesFragment private constructor() : Fragment() {
     private fun setupAdapter(files: List<File>){
         val layoutManager = LinearLayoutManager(requireContext())
         adapter = FileAdapter(files){
-//            val action = FilesFragmentDirections.actionFilesToSelf(it.path)
-//            NavHostFragment.findNavController(this).navigate(action)
+            stack.addFirst(it.path)
+            it.listFiles()?.let { files ->
+                adapter.setItems(files.toList())
+            }
         }
         binding.rvFiles.layoutManager = layoutManager
         binding.rvFiles.adapter = adapter
