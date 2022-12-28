@@ -37,7 +37,6 @@ class ImageViewerFragment : Fragment() {
 
         binding.vpImages.let { viewPager ->
             viewPager.adapter = adapter
-            viewPager.offscreenPageLimit = 3
             viewPager.getChildAt(0)?.overScrollMode = RecyclerView.OVER_SCROLL_NEVER
             viewPager.setCurrentItem(args.position, false)
         }

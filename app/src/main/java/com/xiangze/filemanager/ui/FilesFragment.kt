@@ -1,7 +1,9 @@
 package com.xiangze.filemanager.ui
 
+import android.content.Context
 import android.os.Bundle
 import android.os.Environment
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -20,6 +22,19 @@ class FilesFragment private constructor() : Fragment() {
 
     private val stack = ArrayDeque<String>()
     // Stack, Queue, Deque
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        requireActivity().onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                stack.removeFirst()
+                val root = File(stack.first())
+                root.listFiles()?.let {
+                    adapter.setItems(it.toList())
+                }
+            }
+        })
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -52,9 +67,11 @@ class FilesFragment private constructor() : Fragment() {
     private fun setupAdapter(files: List<File>) {
         val layoutManager = LinearLayoutManager(requireContext())
         adapter = FileAdapter(files) {
-            stack.addFirst(it.path)
-            it.listFiles()?.let { files ->
-                adapter.setItems(files.toList())
+            if (it.isDirectory) {
+                stack.addFirst(it.path)
+                it.listFiles()?.let { files ->
+                    adapter.setItems(files.toList())
+                }
             }
 //            val action = FilesFragmentDirections.actionFilesToSelf(it.path)
 //            NavHostFragment.findNavController(this).navigate(action)
