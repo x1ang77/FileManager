@@ -1,14 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
-    tools:context=".ui.FirstFragment">
+    android:orientation="vertical"
+    android:padding="16dp">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvImages"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:padding="8dp" />
-</FrameLayout>
+
+    <TextView
+        android:id="@+id/tvGreeting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Greeting" />
+
+</LinearLayout>

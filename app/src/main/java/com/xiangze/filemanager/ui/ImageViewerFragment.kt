@@ -1,10 +1,12 @@
 package com.xiangze.filemanager.ui
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.addCallback
 import androidx.fragment.app.setFragmentResult
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.navArgs
@@ -16,6 +18,13 @@ import com.xiangze.filemanager.databinding.FragmentImageViewerBinding
 class ImageViewerFragment : Fragment() {
     private lateinit var binding: FragmentImageViewerBinding
     private lateinit var adapter: ImageSliderAdapter
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        requireActivity().onBackPressedDispatcher.addCallback(this) {
+            NavHostFragment.findNavController(requireParentFragment()).popBackStack()
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

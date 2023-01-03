@@ -41,6 +41,7 @@ class ImageAdapter(
                             .load(image)
                             .placeholder(R.drawable.ic_image)
                             .into(ivImage)
+
                         cvImage.setOnClickListener {
                             onClick(adapterPosition)
                         }

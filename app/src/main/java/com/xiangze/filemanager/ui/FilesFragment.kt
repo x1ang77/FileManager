@@ -1,11 +1,15 @@
 package com.xiangze.filemanager.ui
 
+import android.content.Context
 import android.os.Bundle
 import android.os.Environment
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.navArgs
@@ -17,6 +21,25 @@ import java.io.File
 class FilesFragment private constructor() : Fragment() {
     private lateinit var binding: FragmentFilesBinding
     private lateinit var adapter: FileAdapter
+
+    val stack = ArrayDeque<String>()
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        requireActivity().onBackPressedDispatcher.addCallback(object: OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (stack.isNotEmpty()) {
+
+                    stack.removeFirst()
+                    val root = File(stack.first())
+                    root.listFiles()?.let {
+                        adapter.setItem(it.toList())
+                    }
+                    Log.d("debugging", "Hello back")
+                }
+            }
+        })
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,7 +57,9 @@ class FilesFragment private constructor() : Fragment() {
 //        }else{
 //            Environment.getExternalStorageDirectory().path
 //        }
+
         val path = Environment.getExternalStorageDirectory().path
+        stack.addFirst(path)
 
         val root = File(path)
         if(root.listFiles()?.toList().isNullOrEmpty()){
@@ -47,9 +72,13 @@ class FilesFragment private constructor() : Fragment() {
 
     private fun setupAdapter(files: List<File>){
         val layoutManager = LinearLayoutManager(requireContext())
-        adapter = FileAdapter(files){
-//            val action = FilesFragmentDirections.actionFilesToSelf(it.path)
-//            NavHostFragment.findNavController(this).navigate(action)
+        adapter = FileAdapter(files) {
+            if (it.isDirectory) {
+                stack.addFirst(it.path)
+                it.listFiles()?.let { files ->
+                    adapter.setItem(files.toList())
+                }
+            }
         }
         binding.rvFiles.layoutManager = layoutManager
         binding.rvFiles.adapter = adapter

@@ -17,6 +17,4 @@ class SecondFragment : Fragment() {
         binding = FragmentSecondBinding.inflate(layoutInflater)
         return binding.root
     }
-
-
 }
